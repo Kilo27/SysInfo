@@ -1,26 +1,102 @@
-//import java.io.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
-class Main{
-	public static void main(String[] args){
-        JFrame frame = new JFrame();
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
-        // Creating instance of JButton
-        JButton button = new JButton(" Sysinfo!!!!!");
 
-        // x axis, y axis, width, height
-        button.setBounds(150, 200, 220, 50);
+public class Main extends JPanel{
 
-        // adding button in JFrame
-        frame.add(button);
+    private boolean changeAllowed = false;
+    //keep reference to cyan for the height dimension
+    final JPanel cyan = new JPanel();
 
-        // 400 width and 500 height
-        frame.setSize(500, 600);
+    public Main(){
+        cyan.setPreferredSize(new Dimension(600, 300));//provide sizing hint
+    }
 
-        // using no layout managers
-        frame.setLayout(null);
+    private Dimension getCustomDimensions(){
+        if ( changeAllowed ){
+            return new Dimension((int)(super.getParent().getBounds().width * 0.3), cyan.getBounds().height);
+        }else{
+            return new Dimension(200, cyan.getBounds().height);
+        }
+    }
+    @Override
+    public Dimension getMaximumSize(){
+        return getCustomDimensions();
+    }
+    @Override
+    public Dimension getMinimumSize(){
+        return getCustomDimensions();
+    }
+    @Override
+    public Dimension getPreferredSize(){
+        return getCustomDimensions();
+    }
 
-        // making the frame visible
-        frame.setVisible(true);
-	}
+    public static void main(String[] args) throws Exception{
+        SwingUtilities.invokeAndWait(new Runnable(){
+
+            @Override
+            public void run() {
+                final int MINIMUM = 600;
+                JFrame frame = new JFrame();
+                frame.add(new JToolBar(), BorderLayout.NORTH);
+                final JPanel blue = new JPanel();
+
+                final Main green = new Main();
+                green.setBackground(Color.green);
+                green.setOpaque(true);
+
+                green.cyan.setBackground(Color.cyan);
+                green.cyan.setOpaque(true);
+                blue.setOpaque(true);
+                blue.setBackground(Color.blue);
+                blue.setPreferredSize(new Dimension(900, 300));//hint at size
+                blue.setMinimumSize(new Dimension(100, 200));//hint at size
+                //Nest Box Layouts
+                Box top = Box.createHorizontalBox();
+                top.add(blue);
+                Box bottom = Box.createHorizontalBox();
+                bottom.add(green);
+                bottom.add(green.cyan);
+                Box vert = Box.createVerticalBox();
+                vert.add(top);
+                vert.add(bottom);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.add(vert);
+                //listen for resizes
+                blue.addComponentListener(new ComponentAdapter(){
+
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        if ( blue.getBounds().width < MINIMUM ){//set flag
+                            green.changeAllowed = true;
+                        }else{
+                            green.changeAllowed = false;
+                        }
+                    }
+                });
+
+                frame.pack();
+                frame.setSize(800, 600);
+                frame.setVisible(true);
+
+            }
+
+        });
+    }
 }
