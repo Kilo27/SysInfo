@@ -1,4 +1,4 @@
-import java.awt.BorderLayout;
+/*import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -99,4 +98,16 @@ public class Main extends JPanel{
 
         });
     }
+}*/
+import javax.swing.*;
+
+class GFG {
+	public static void main(String[] args){
+		JFrame frame = new JFrame();
+		JButton cpubutton = new JButton("CPU Information");
+		cpubutton.setBounds(150, 150, 150, 150);
+		frame.add(cpubutton);
+		frame.setVisible(true);
+
+	}
 }
