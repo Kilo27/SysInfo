@@ -1,5 +1,6 @@
 # SysInfo
-<<<<<<< HEAD
+/.build.sh build - build program
+/.build.sh run - run program
 
 =======
 Democratic People’s Republic of This Specific Table
