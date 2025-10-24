@@ -3,15 +3,13 @@ import oshi.hardware.Sensors;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
-import oshi.hardware.CentralProcessor.LogicalProcessor;
-import oshi.hardware.CentralProcessor.PhysicalProcessor;
-import oshi.hardware.CentralProcessor.ProcessorCache;
+import oshi.hardware.CentralProcessor.*;
 import oshi.hardware.UsbDevice;
 import oshi.util.FormatUtil;
 
 import java.util.List;
 
-class OSHImethod {
+class SysInfo {
 
     private SystemInfo systeminfo;
     private HardwareAbstractionLayer hardware;
@@ -19,18 +17,16 @@ class OSHImethod {
     private GlobalMemory memory;
     
 
-    public OSHImethod() {
+    public SysInfo() {
         initSystemInfo();
         initHardware();
         initCentralProcessor();
-        initMemory();
-        initSensors();
+        //initMemory();
+        //initSensors();
     }
 
     public void initSystemInfo() {
         systeminfo = new SystemInfo();
-        return;
-
     }
     public void initHardware() {
        hardware = systeminfo.getHardware();
@@ -48,7 +44,7 @@ class OSHImethod {
     }
     
     public void printSystemSpecifics() {
-        System.out.printf("\n=== System Specifications ===");
+        System.out.print("\n=== System Specifications ===");
         System.out.printf("%-25s | %s\n ", "Name", cpu.getProcessorIdentifier().getName());
         System.out.printf("%-25s | %s\n ", "Family", cpu.getProcessorIdentifier().getFamily());
         System.out.printf("%-25s | %s\n " ,"Model", cpu.getProcessorIdentifier().getModel());
@@ -65,7 +61,7 @@ class OSHImethod {
         List<LogicalProcessor> logproc = cpu.getLogicalProcessors();
         System.out.println("\n=== CPU ===");
         System.out.println("");
-        System.out.printf("Physical Processors: ");
+        System.out.print("Physical Processors: ");
         System.out.printf("%-25s | %s\n", "Physical Processor Count: ", cpu.getPhysicalProcessorCount());
 
         for (PhysicalProcessor proc : phyproc) {
@@ -84,7 +80,7 @@ class OSHImethod {
             System.out.printf("%-25s | %s\n","Processor Group", lproc.getProcessorGroup());
             System.out.printf("%-25s | %s\n","Processor Number", lproc.getProcessorNumber());
         }
-        System.out.printf("Current Frequency: ");
+        System.out.print("Current Frequency: ");
         for(long freq : freqs) {
             System.out.printf("%-25s | %d\n", "Frequency", FormatUtil.formatHertz(freq));
         }
@@ -96,7 +92,7 @@ class OSHImethod {
     }
    //%-25s | %s\n 
     public void printMemory() {
-        System.out.printf("\n=== Memory ===");
+        System.out.print("\n=== Memory ===");
         System.out.printf("%-25s | %s\n","Total Memory: " , memory.getTotal());
         System.out.printf("%-25s | %s\n","Available Memory: " , memory.getAvailable());
         System.out.printf("%-25s | %s\n","Virtual Memory: " , memory.getVirtualMemory());
@@ -104,7 +100,7 @@ class OSHImethod {
     }
 
     public void printCacheMemory() {
-        System.out.printf("\n=== Cache Memory ===");
+        System.out.print("\n=== Cache Memory ===");
         List<ProcessorCache> caches = cpu.getProcessorCaches();
 
         for (ProcessorCache cache : caches) {
@@ -113,7 +109,7 @@ class OSHImethod {
             System.out.printf("%-25s | %s\n","Cache Size: " , FormatUtil.formatBytes(cache.getCacheSize()));
             System.out.printf("%-25s | %s\n","Cache Line Size: " , FormatUtil.formatBytes(cache.getLineSize()));
             System.out.printf("%-25s | %s\n","Cache Associativity: " , cache.getAssociativity());
-            System.out.printf("====");
+            System.out.print("====");
         }
     }
     

@@ -103,10 +103,15 @@ import javax.swing.*;
 
 class GFG {
 	public static void main(String[] args){
+        SysInfo machine = new SysInfo();
+        //machine.printSystemSpecifics();
 		JFrame frame = new JFrame();
 		JButton cpubutton = new JButton("CPU Information");
+        JLabel label1 = new JLabel();
 		cpubutton.setBounds(150, 150, 150, 150);
+        frame.setSize(400,400);
 		frame.add(cpubutton);
+        frame.add(label1);
 		frame.setVisible(true);
 
 	}
